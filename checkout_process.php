@@ -4,7 +4,7 @@ require 'header.php';
 
 <?php
 if (!isset($_SESSION["uid"])) {
-  header("location:login_form.php");
+  header("location:index.php");
   // $uid = $_SESSION["uid"];
   // echo "user id is $uid";
 }

@@ -8,6 +8,16 @@ if (isset($_GET["order_id"])) {
 } else {
     $order_id = 0;
 }
+$isShowToaster = false;
+if (isset($_POST["trx_id"])) {
+    $trx_id = $_POST["trx_id"];
+    $orderTrxIdUpdateQuery = "UPDATE orders SET trx_id = '$trx_id', p_status = 'completed' WHERE order_id = '$order_id'";
+    if (mysqli_query($con, $orderTrxIdUpdateQuery)) {
+        $isShowToaster = true;
+    } else {
+        echo "Something went wrong";
+    }
+}
 ?>
 <!-- End Navbar -->
 <div class="content">
@@ -27,12 +37,39 @@ if (isset($_GET["order_id"])) {
                     <h2 class="text-center">Order Details</h2>
                     <div class="text-center">
                         <div>
+                            <span>Customer Name: </span> <?php echo $data["first_name"] . " " . $data["last_name"] ?>
+                        </div>
+                        <div>
                             <span>Invoice Id: </span> <?php echo $data["invoice_id"] ?>
                         </div>
                         <div>
                             <span>Order Id: </span> <?php echo $data["order_id"] ?>
                         </div>
-                        <span>Payment Status: </span> <?php echo $data["p_status"] ?>
+                        <div>
+                            <span>Payment Status: </span> <?php echo $data["p_status"] ?>
+                        </div>
+                        <div>
+                            <span>Total Order Amount: </span> <?php echo $data["total_order_amount"] ?>
+                        </div>
+                        <div>
+                            <span>Contact Number: </span> <?php echo $data["mobile"] ?>
+                        </div>
+                        <div>
+                            <span>Address 1: </span> <?php echo $data["address1"] ?>
+                        </div>
+                        <div>
+                            <span>Address 2: </span> <?php echo $data["address2"] ?>
+                        </div>
+                        <?php if ($data["p_status"] == "pending") { ?>
+                            <form class="d-flex justify-content-center align-items-center flex-column border-danger" method="post">
+                                <input name="trx_id" class="form-control" placeholder="Enter TRX ID" type="text">
+                                <button class="btn btn-success">Make Payment</button>
+                            </form>
+                        <?php } else { ?>
+                            <div>
+                                <span>Transaction ID: </span> <?php echo $data["trx_id"] ?>
+                            </div>
+                        <?php } ?>
                     </div>
 
                     <div class="container my-5">
@@ -55,8 +92,6 @@ if (isset($_GET["order_id"])) {
                                 $sl = 1;
                                 $totalAmount = 0;
                                 foreach ($getOrderDetails as $products) {
-                                    // echo $products["product_title"] . "<br>";
-
                                 ?>
                                     <tr>
                                         <th scope="row"><?php echo $sl; ?></th>
@@ -91,4 +126,14 @@ if (isset($_GET["order_id"])) {
 </div>
 <?php
 include "footer.php";
+
+if ($isShowToaster) {
+?>
+    <script>
+        const toastLiveExample = document.getElementById('liveToast');
+        const toast = new bootstrap.Toast(toastLiveExample);
+        toast.show();
+    </script>
+<?php
+}
 ?>

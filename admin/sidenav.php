@@ -13,10 +13,28 @@
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <link href="assets/css/black-dashboard.css" rel="stylesheet" />
-  
+
 </head>
 
 <body class="dark-edition">
+
+  <!-- this is toaster  -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="..." class="rounded me-2" alt="...">
+        <strong class="me-auto">Bootstrap</strong>
+        <small>11 mins ago</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Hello, world! This is a toast message.
+      </div>
+    </div>
+  </div>
+
+  <!-- here ended the toaster  -->
+
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
       <!--
@@ -32,51 +50,49 @@
       <div class="sidebar-wrapper ps-container ps-theme-default" data-ps-id="3a8db1f4-24d8-4dbf-85c9-4f5215c1b29a">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="index.php">              
+            <a class="nav-link" href="index.php">
               <p>Dashboard</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="adduser.php">             
+            <a class="nav-link" href="adduser.php">
               <p>Add User</p>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="productlist.php">             
+            <a class="nav-link" href="productlist.php">
               <p>Product List</p>
             </a>
-            
+
           </li>
-          
+
           <li class="nav-item ">
-            <a class="nav-link" href="orders.php">              
+            <a class="nav-link" href="orders.php">
               <p>Orders</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="addproduct.php">              
+            <a class="nav-link" href="addproduct.php">
               <p>Add Products</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="manageuser.php">            
+            <a class="nav-link" href="manageuser.php">
               <p>Manage User</p>
             </a>
           </li>
-           <li class="nav-item " ><?php if (isset($_COOKIE['CurrentUser'])) {
-          $username=$_COOKIE['CurrentUser'];
+          <li class="nav-item "><?php if (isset($_COOKIE['CurrentUser'])) {
+                                  $username = $_COOKIE['CurrentUser'];
 
-          echo "<a class='nav-link' href='logout.php'><span class='glyphicon glyphicon-log-in'></span><p> $username | Logout</p></a>";
-        }else{
+                                  echo "<a class='nav-link' href='logout.php'><span class='glyphicon glyphicon-log-in'></span><p> $username | Logout</p></a>";
+                                } else {
 
-          echo "<a class='nav-link' href='login.php'><span class='glyphicon glyphicon-log-in'></span><p> Login</p></a>"; 
-        }
+                                  echo "<a class='nav-link' href='login.php'><span class='glyphicon glyphicon-log-in'></span><p> Login</p></a>";
+                                }
 
 
-      ?></li>
-         
+                                ?></li>
+
         </ul>
       </div>
     </div>
-    
-    
