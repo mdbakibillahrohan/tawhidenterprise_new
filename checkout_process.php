@@ -62,19 +62,21 @@ if (isset($_SESSION["uid"])) {
   if (mysqli_query($con, $orderInfoInsertQuery)) {
     $getDataFromCartQuery = "SELECT p_id, qty, product_price FROM cart INNER JOIN products ON cart.p_id=products.product_id WHERE cart.user_id='$user_id'";
     $getDataFromCart = mysqli_query($con, $getDataFromCartQuery);
+    $totalOrderAmount = 0;
     while ($data = mysqli_fetch_assoc($getDataFromCart)) {
       $product_id = $data['p_id'];
       $quantity = $data['qty'];
       $amount = $data['product_price'] * $quantity;
       $orderProductInsertQuery = "INSERT INTO `order_products` ( `order_id`, `product_id`, `qty`, `amt`) VALUES ('$order_id', '$product_id', '$quantity', '$amount');";
       if (mysqli_query($con, $orderProductInsertQuery)) {
+        $totalOrderAmount = $totalOrderAmount + $amount;
       } else {
         echo mysqli_error($con);
       }
       echo mysqli_error($con);
     }
-
     $deleteCartQuery = "DELETE FROM cart WHERE user_id = '$user_id'";
+    $orderAmountUpdateQuery = "UPDATE orders SET total_order_amount = '$totalOrderAmount' WHERE order_id = '$order_id'";
 
 ?>
     <!-- here ended php code and started some html static code  -->
@@ -97,7 +99,7 @@ if (isset($_SESSION["uid"])) {
 
           <!-- again here started the php code  -->
       <?php
-      if (mysqli_query($con, $deleteCartQuery)) {
+      if (mysqli_query($con, $deleteCartQuery) && mysqli_query($con, $orderAmountUpdateQuery)) {
         $selectOrderProductQueriesForShow = "SELECT * FROM orders INNER JOIN order_products ON orders.order_id=order_products.order_id INNER JOIN products ON order_products.product_id=products.product_id WHERE orders.user_id = '$user_id' AND orders.session_id = '$session_id'";
         $orderProducts = mysqli_query($con, $selectOrderProductQueriesForShow);
         $sl = 1;
